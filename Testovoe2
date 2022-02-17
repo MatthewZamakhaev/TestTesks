@@ -1,0 +1,145 @@
+//MainActivity
+package com.example.testovoe2
+
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.widget.TextView
+import com.example.testovoe2.databinding.ActivityMainBinding
+
+
+class MainActivity : AppCompatActivity() {
+    lateinit var bindingClass: ActivityMainBinding
+    var a = 2
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        bindingClass = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(bindingClass.root)
+        bindingClass.tv1.text = a.toString()
+
+        if (savedInstanceState != null) {
+         bindingClass.tv1.text = a++.toString()
+
+        }
+        bindingClass.tv1.setOnClickListener {
+            val b = (bindingClass.tv1.text as String).toInt()
+            val c = b*b
+            bindingClass.tv1.text = c.toString()
+            val i = Intent(this, MainActivity2::class.java)
+            i.putExtra("TEXT", bindingClass.tv1.text)
+            startActivityForResult(i, 1)
+        }
+        Log.d("tag1", "onCreate")
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (data != null) {
+            val h = data.getStringExtra("TEXT1")
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("tag2", "onStart")
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        bindingClass.tv1.text = savedInstanceState.getString(R.string.STATE_TEXT.toString())
+        bindingClass.tv1.text = a.toString()
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(R.string.STATE_TEXT.toString(), bindingClass.tv1.text.toString())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("tag3", "onResume")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("tag4", "onDestroy")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("tag5", "onStop")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("tag6", "onRestart")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("tag7", "onPause")
+    }
+}
+
+//MainActivity2 
+package com.example.testovoe2
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.widget.TextView
+
+class MainActivity2 : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main2)
+
+        findViewById<TextView>(R.id.tv2).setOnClickListener(){
+
+            val v = findViewById<TextView>(R.id.tv2).text.toString()
+            val i = Intent()
+            i.putExtra("TEXT1", v)
+            setResult(1)
+            finish()
+        }
+
+        val t = intent.getStringExtra("TEXT")
+        val m = findViewById<TextView>(R.id.tv2).setText(t)
+
+        Log.d("tag8", "onCreate1")
+    }
+    override fun onStart() {
+        super.onStart()
+        Log.d("tag9", "onStart1")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("tag10", "onResume1")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("tag11", "onDestroy1")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("tag12", "onStop1")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("tag13", "onRestart1")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("tag14", "onPause")
+    }
+}
